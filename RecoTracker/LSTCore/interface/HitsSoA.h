@@ -16,7 +16,8 @@ namespace lst {
                       SOA_COLUMN(float, highEdgeXs),
                       SOA_COLUMN(float, highEdgeYs),
                       SOA_COLUMN(float, lowEdgeXs),
-                      SOA_COLUMN(float, lowEdgeYs))
+                      SOA_COLUMN(float, lowEdgeYs),
+                      SOA_COLUMN(uint8_t, clustSizes))
 
   GENERATE_SOA_LAYOUT(HitsRangesSoALayout,
                       SOA_COLUMN(ArrayIx2, hitRanges),
