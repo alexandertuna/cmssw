@@ -258,7 +258,7 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::lst {
                 d2 += diff * diff;
               }
 
-              if (((dR2 < 0.001f || nMatched >= minNHitsForDup_T5) && d2 < 1.0f) || (dR2 < 0.02f && d2 < 0.1f)) {
+              if (dR2 < 0.001f || nMatched >= minNHitsForDup_T5) {
                 if (isPT5_jx || score_rphisum1 > score_rphisum2) {
                   rmQuintupletFromMemory(quintuplets, ix, true);
                 } else if (isPT5_ix || score_rphisum1 < score_rphisum2) {

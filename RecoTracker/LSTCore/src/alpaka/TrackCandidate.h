@@ -191,23 +191,9 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::lst {
             float dPhi = cms::alpakatools::deltaPhi(acc, phi1, phi2);
             float dR2 = dEta * dEta + dPhi * dPhi;
 
-            if (jx < pixelQuintuplets.nPixelQuintuplets()) {
-              unsigned int jT5 = pixelQuintuplets.quintupletIndices()[jx];
-              float d2 = 0.f;
-              // Compute distance-squared between the two t5 embeddings.
-              CMS_UNROLL_LOOP for (unsigned k = 0; k < Params_T5::kEmbed; ++k) {
-                float df = iEmbedT5[k] - quintuplets.t5Embed()[jT5][k];
-                d2 += df * df;
-              }
-              if ((dR2 < 0.02f && d2 < 0.1f) || (dR2 < 1e-3f && d2 < 1.0f)) {
-                quintuplets.isDup()[iT5] = true;
-              }
-            } else if (dR2 < 1e-3f) {
-              quintuplets.isDup()[iT5] = true;
-            }
+            if (dR2 < 1e-3f)
+              quintuplets.isDup()[quintupletIndex] = true;
 
-            if (quintuplets.isDup()[iT5])
-              break;
           }
         }
       }
@@ -259,18 +245,8 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::lst {
             float dEta = alpaka::math::abs(acc, eta1 - eta2);
             float dPhi = cms::alpakatools::deltaPhi(acc, phi1, phi2);
             float dR2 = dEta * dEta + dPhi * dPhi;
-            // Cut on pLS-T5 embed distance.
-            if (dR2 < 0.02f) {
-              float d2 = 0.f;
-              CMS_UNROLL_LOOP for (unsigned k = 0; k < Params_pLS::kEmbed; ++k) {
-                const float diff = plsEmbed[k] - quintuplets.t5Embed()[quintupletIndex][k];
-                d2 += diff * diff;
-              }
-              // Compare squared embedding distance to the cut value for the eta bin.
-              if (d2 < threshold * threshold) {
-                pixelSegments.isDup()[pixelArrayIndex] = true;
-              }
-            }
+            if (dR2 < 1e-3f)
+              pixelSegments.isDup()[pixelArrayIndex] = true;
           }
           if (type == LSTObjType::pT3) {
             int pLSIndex = pixelTriplets.pixelSegmentIndices()[innerTrackletIdx];
