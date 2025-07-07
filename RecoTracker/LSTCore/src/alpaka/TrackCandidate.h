@@ -170,11 +170,6 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::lst {
           float eta1 = __H2F(quintuplets.eta()[iT5]);
           float phi1 = __H2F(quintuplets.phi()[iT5]);
 
-          float iEmbedT5[Params_T5::kEmbed];
-          CMS_UNROLL_LOOP for (unsigned k = 0; k < Params_T5::kEmbed; ++k) {
-            iEmbedT5[k] = quintuplets.t5Embed()[iT5][k];
-          }
-
           // Cross-clean against both pT5s and pT3s
           for (unsigned int jx : cms::alpakatools::uniform_elements_x(acc, loop_bound)) {
             float eta2, phi2;
@@ -192,7 +187,7 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::lst {
             float dR2 = dEta * dEta + dPhi * dPhi;
 
             if (dR2 < 1e-3f)
-              quintuplets.isDup()[quintupletIndex] = true;
+              quintuplets.isDup()[iT5] = true;
 
           }
         }
@@ -222,17 +217,6 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::lst {
         float eta1 = pixelSeeds.eta()[pixelArrayIndex];
         float phi1 = pixelSeeds.phi()[pixelArrayIndex];
         unsigned int prefix = ranges.segmentModuleIndices()[pixelModuleIndex];
-
-        // Store the pLS embedding outside the TC comparison loop.
-        float plsEmbed[Params_pLS::kEmbed];
-        CMS_UNROLL_LOOP for (unsigned k = 0; k < Params_pLS::kEmbed; ++k) {
-          plsEmbed[k] = pixelSegments.plsEmbed()[pixelArrayIndex][k];
-        }
-
-        // Get pLS embedding eta bin and cut value for that bin.
-        float absEta1 = alpaka::math::abs(acc, eta1);
-        uint8_t bin_idx = (absEta1 > 2.5f) ? (dnn::kEtaBins - 1) : static_cast<uint8_t>(absEta1 / dnn::kEtaSize);
-        const float threshold = dnn::plsembdnn::kWP[bin_idx];
 
         unsigned int nTrackCandidates = cands.nTrackCandidates();
         for (unsigned int trackCandidateIndex : cms::alpakatools::uniform_elements_x(acc, nTrackCandidates)) {
