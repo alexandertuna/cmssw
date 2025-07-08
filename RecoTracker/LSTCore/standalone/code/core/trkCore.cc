@@ -436,7 +436,7 @@ std::vector<int> matchedSimTrkIdxs(std::vector<unsigned int> hitidxs,
     if (trkidx < 0)
       continue;
     float percent_matched = static_cast<float>(counts[rawidx]) / nhits_input;
-    if (percent_matched > 0.75f)
+    if (percent_matched >= 0.50f)
       matched_sim_trk_idxs.push_back(trkidx);
     maxHitMatchCount = std::max(maxHitMatchCount, *std::max_element(counts.begin(), counts.end()));
     max_percent_matched = std::max(max_percent_matched, percent_matched);
