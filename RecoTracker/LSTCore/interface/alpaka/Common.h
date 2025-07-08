@@ -67,7 +67,7 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::lst {
       HOST_DEVICE_CONSTANT float kEta_norm = 4.0f;
       HOST_DEVICE_CONSTANT float kEtaErr_norm = 0.00139f;
       HOST_DEVICE_CONSTANT float kWP[kEtaBins] = {
-          0.9235f, 0.8974f, 0.9061f, 0.9431f, 0.8262f, 0.7998f, 0.7714f, 0.7017f, 0.6749f, 0.6624f};
+          0.8361f, 0.9017f, 0.9216f, 0.9532f, 0.8237f, 0.7977f, 0.7644f, 0.6968f, 0.6663f, 0.6718f};
     }  // namespace plsembdnn
 
     namespace t3dnn {
