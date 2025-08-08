@@ -1744,6 +1744,7 @@ void printpLSs(LSTEvent* event) {
   auto hitsBase = event->getInput<HitsBaseSoA>();
   auto modules = event->getModules<ModulesSoA>();
   auto ranges = event->getRanges();
+
   unsigned int i = modules.nLowerModules();
   unsigned int idx = i;  //modules->lowerModuleIndices[i];
   int npLS = segmentsOccupancy.nSegments()[idx];
@@ -1761,26 +1762,7 @@ void printpLSs(LSTEvent* event) {
     unsigned int hit3 = hitsBase.idxs()[OuterMiniDoubletUpperHitIndex];
     std::cout << "VALIDATION 'pLS': "
               << "pLS"
-              << " hit0: " << hit0 << " hit1: " << hit1 << " hit2: " << hit2 << " hit3: " << hit3
-              << std::endl;
-    // float hit_0_x = hitsBase.xs()[InnerMiniDoubletLowerHitIndex];
-    // float hit_1_x = hitsBase.xs()[InnerMiniDoubletUpperHitIndex];
-    // float hit_2_x = hitsBase.xs()[OuterMiniDoubletLowerHitIndex];
-    // float hit_3_x = hitsBase.xs()[OuterMiniDoubletUpperHitIndex];
-    // float hit_0_y = hitsBase.ys()[InnerMiniDoubletLowerHitIndex];
-    // float hit_1_y = hitsBase.ys()[InnerMiniDoubletUpperHitIndex];
-    // float hit_2_y = hitsBase.ys()[OuterMiniDoubletLowerHitIndex];
-    // float hit_3_y = hitsBase.ys()[OuterMiniDoubletUpperHitIndex];
-    // float hit_0_z = hitsBase.zs()[InnerMiniDoubletLowerHitIndex];
-    // float hit_1_z = hitsBase.zs()[InnerMiniDoubletUpperHitIndex];
-    // float hit_2_z = hitsBase.zs()[OuterMiniDoubletLowerHitIndex];
-    // float hit_3_z = hitsBase.zs()[OuterMiniDoubletUpperHitIndex];
-    // std::printf("a=(%8.3f, %8.3f, %8.3f) b=(%8.3f, %8.3f, %8.3f) c=(%8.3f, %8.3f, %8.3f) d=(%8.3f, %8.3f, %8.3f)\n",
-    //             hit_0_x, hit_0_y, hit_0_z,
-    //             hit_1_x, hit_1_y, hit_1_z,
-    //             hit_2_x, hit_2_y, hit_2_z,
-    //             hit_3_x, hit_3_y, hit_3_z
-    //             );
+              << " hit0: " << hit0 << " hit1: " << hit1 << " hit2: " << hit2 << " hit3: " << hit3 << std::endl;
   }
   std::cout << "VALIDATION npLS: " << npLS << std::endl;
 }
