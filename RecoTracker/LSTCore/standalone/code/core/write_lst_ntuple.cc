@@ -117,6 +117,9 @@ void createOptionalOutputBranches() {
   ana.tx->createBranch<std::vector<float>>("pLS_px");
   ana.tx->createBranch<std::vector<float>>("pLS_py");
   ana.tx->createBranch<std::vector<float>>("pLS_pz");
+  ana.tx->createBranch<std::vector<float>>("pLS_x");
+  ana.tx->createBranch<std::vector<float>>("pLS_y");
+  ana.tx->createBranch<std::vector<float>>("pLS_z");
   ana.tx->createBranch<std::vector<float>>("pLS_eta");
   ana.tx->createBranch<std::vector<bool>>("pLS_isQuad");
   ana.tx->createBranch<std::vector<int>>("pLS_charge");
@@ -1540,6 +1543,21 @@ void setpLSOutputBranches(LSTEvent* event) {
   std::vector<int> sim_pLS_matched(n_accepted_simtrk, 0);
   std::vector<std::vector<int>> pLS_matched_simIdx;
 
+  // tuna test
+  SegmentsConst segments = event->getSegments<SegmentsSoA>();
+  SegmentsOccupancyConst segmentsOccupancy = event->getSegments<SegmentsOccupancySoA>();
+  MiniDoubletsConst miniDoublets = event->getMiniDoublets<MiniDoubletsSoA>();
+  auto hitsBase = event->getInput<HitsBaseSoA>();
+  auto modules = event->getModules<ModulesSoA>();
+  auto ranges = event->getRanges();
+  unsigned int i = modules.nLowerModules();
+  unsigned int idx = i;  //modules->lowerModuleIndices[i];
+  int npLS = segmentsOccupancy.nSegments()[idx];
+  // std::cout << std::endl;
+  // std::cout << "TUNAAAAAAA " << n_pLS << " " << npLS << std::endl;
+  // std::cout << std::endl;
+  // end tuna test
+
   for (unsigned int i_pLS = 0; i_pLS < n_pLS; ++i_pLS) {
     // Get pLS properties
     float pt = pixelSeeds.ptIn()[i_pLS];
@@ -1558,6 +1576,20 @@ void setpLSOutputBranches(LSTEvent* event) {
     float centerY = pixelSegments.circleCenterY()[i_pLS];
     float radius = pixelSegments.circleRadius()[i_pLS];
 
+    // tuna test part 2
+    unsigned int sgIdx = ranges.segmentModuleIndices()[idx] + i_pLS;
+    unsigned int InnerMiniDoubletIndex = segments.mdIndices()[sgIdx][0];
+    unsigned int OuterMiniDoubletIndex = segments.mdIndices()[sgIdx][1];
+    unsigned int InnerMiniDoubletLowerHitIndex = miniDoublets.anchorHitIndices()[InnerMiniDoubletIndex];
+    unsigned int InnerMiniDoubletUpperHitIndex = miniDoublets.outerHitIndices()[InnerMiniDoubletIndex];
+    unsigned int OuterMiniDoubletLowerHitIndex = miniDoublets.anchorHitIndices()[OuterMiniDoubletIndex];
+    unsigned int OuterMiniDoubletUpperHitIndex = miniDoublets.outerHitIndices()[OuterMiniDoubletIndex];
+    const auto x = hitsBase.xs()[OuterMiniDoubletLowerHitIndex];
+    const auto y = hitsBase.ys()[OuterMiniDoubletLowerHitIndex];
+    const auto z = hitsBase.zs()[OuterMiniDoubletLowerHitIndex];
+    // std::printf("%8.4f %8.4f %8.4f %8.4f %8.4f %8.4f %8.4f\n", phi, phi - deltaPhi, phi + deltaPhi, x2, y2, atan2(y2, x2), atan2(py, px));
+    // end tuna test part 2
+    
     // Get hits from pLS
     std::vector<unsigned int> hit_idx = getPixelHitIdxsFrompLS(event, i_pLS);
     std::vector<unsigned int> hit_type = getPixelHitTypesFrompLS(event, i_pLS);
@@ -1573,6 +1605,9 @@ void setpLSOutputBranches(LSTEvent* event) {
     ana.tx->pushbackToBranch<float>("pLS_px", px);
     ana.tx->pushbackToBranch<float>("pLS_py", py);
     ana.tx->pushbackToBranch<float>("pLS_pz", pz);
+    ana.tx->pushbackToBranch<float>("pLS_x", x);
+    ana.tx->pushbackToBranch<float>("pLS_y", y);
+    ana.tx->pushbackToBranch<float>("pLS_z", z);
     ana.tx->pushbackToBranch<float>("pLS_eta", eta);
     ana.tx->pushbackToBranch<float>("pLS_etaErr", etaErr);
     ana.tx->pushbackToBranch<float>("pLS_phi", phi);
@@ -1715,7 +1750,6 @@ void printpLSs(LSTEvent* event) {
   auto hitsBase = event->getInput<HitsBaseSoA>();
   auto modules = event->getModules<ModulesSoA>();
   auto ranges = event->getRanges();
-
   unsigned int i = modules.nLowerModules();
   unsigned int idx = i;  //modules->lowerModuleIndices[i];
   int npLS = segmentsOccupancy.nSegments()[idx];
@@ -1733,7 +1767,26 @@ void printpLSs(LSTEvent* event) {
     unsigned int hit3 = hitsBase.idxs()[OuterMiniDoubletUpperHitIndex];
     std::cout << "VALIDATION 'pLS': "
               << "pLS"
-              << " hit0: " << hit0 << " hit1: " << hit1 << " hit2: " << hit2 << " hit3: " << hit3 << std::endl;
+              << " hit0: " << hit0 << " hit1: " << hit1 << " hit2: " << hit2 << " hit3: " << hit3
+              << std::endl;
+    // float hit_0_x = hitsBase.xs()[InnerMiniDoubletLowerHitIndex];
+    // float hit_1_x = hitsBase.xs()[InnerMiniDoubletUpperHitIndex];
+    // float hit_2_x = hitsBase.xs()[OuterMiniDoubletLowerHitIndex];
+    // float hit_3_x = hitsBase.xs()[OuterMiniDoubletUpperHitIndex];
+    // float hit_0_y = hitsBase.ys()[InnerMiniDoubletLowerHitIndex];
+    // float hit_1_y = hitsBase.ys()[InnerMiniDoubletUpperHitIndex];
+    // float hit_2_y = hitsBase.ys()[OuterMiniDoubletLowerHitIndex];
+    // float hit_3_y = hitsBase.ys()[OuterMiniDoubletUpperHitIndex];
+    // float hit_0_z = hitsBase.zs()[InnerMiniDoubletLowerHitIndex];
+    // float hit_1_z = hitsBase.zs()[InnerMiniDoubletUpperHitIndex];
+    // float hit_2_z = hitsBase.zs()[OuterMiniDoubletLowerHitIndex];
+    // float hit_3_z = hitsBase.zs()[OuterMiniDoubletUpperHitIndex];
+    // std::printf("a=(%8.3f, %8.3f, %8.3f) b=(%8.3f, %8.3f, %8.3f) c=(%8.3f, %8.3f, %8.3f) d=(%8.3f, %8.3f, %8.3f)\n",
+    //             hit_0_x, hit_0_y, hit_0_z,
+    //             hit_1_x, hit_1_y, hit_1_z,
+    //             hit_2_x, hit_2_y, hit_2_z,
+    //             hit_3_x, hit_3_y, hit_3_z
+    //             );
   }
   std::cout << "VALIDATION npLS: " << npLS << std::endl;
 }
