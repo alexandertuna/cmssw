@@ -1543,7 +1543,7 @@ void setpLSOutputBranches(LSTEvent* event) {
   std::vector<int> sim_pLS_matched(n_accepted_simtrk, 0);
   std::vector<std::vector<int>> pLS_matched_simIdx;
 
-  // tuna test
+  // Logic from printpLS
   SegmentsConst segments = event->getSegments<SegmentsSoA>();
   SegmentsOccupancyConst segmentsOccupancy = event->getSegments<SegmentsOccupancySoA>();
   MiniDoubletsConst miniDoublets = event->getMiniDoublets<MiniDoubletsSoA>();
@@ -1553,10 +1553,6 @@ void setpLSOutputBranches(LSTEvent* event) {
   unsigned int i = modules.nLowerModules();
   unsigned int idx = i;  //modules->lowerModuleIndices[i];
   int npLS = segmentsOccupancy.nSegments()[idx];
-  // std::cout << std::endl;
-  // std::cout << "TUNAAAAAAA " << n_pLS << " " << npLS << std::endl;
-  // std::cout << std::endl;
-  // end tuna test
 
   for (unsigned int i_pLS = 0; i_pLS < n_pLS; ++i_pLS) {
     // Get pLS properties
@@ -1576,7 +1572,7 @@ void setpLSOutputBranches(LSTEvent* event) {
     float centerY = pixelSegments.circleCenterY()[i_pLS];
     float radius = pixelSegments.circleRadius()[i_pLS];
 
-    // tuna test part 2
+    // Logic from printpLS
     unsigned int sgIdx = ranges.segmentModuleIndices()[idx] + i_pLS;
     unsigned int InnerMiniDoubletIndex = segments.mdIndices()[sgIdx][0];
     unsigned int OuterMiniDoubletIndex = segments.mdIndices()[sgIdx][1];
@@ -1587,9 +1583,7 @@ void setpLSOutputBranches(LSTEvent* event) {
     const auto x = hitsBase.xs()[OuterMiniDoubletLowerHitIndex];
     const auto y = hitsBase.ys()[OuterMiniDoubletLowerHitIndex];
     const auto z = hitsBase.zs()[OuterMiniDoubletLowerHitIndex];
-    // std::printf("%8.4f %8.4f %8.4f %8.4f %8.4f %8.4f %8.4f\n", phi, phi - deltaPhi, phi + deltaPhi, x2, y2, atan2(y2, x2), atan2(py, px));
-    // end tuna test part 2
-    
+
     // Get hits from pLS
     std::vector<unsigned int> hit_idx = getPixelHitIdxsFrompLS(event, i_pLS);
     std::vector<unsigned int> hit_type = getPixelHitTypesFrompLS(event, i_pLS);
