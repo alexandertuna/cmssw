@@ -18,7 +18,7 @@ namespace lst {
                       SOA_COLUMN(float, zs),
                       SOA_COLUMN(unsigned int, idxs),
                       SOA_COLUMN(unsigned int, detid),
-                      SOA_COLUMN(uint8_t, clustsize)
+                      SOA_COLUMN(uint16_t, clustsize)
 #ifndef LST_STANDALONE
                           ,
                       SOA_COLUMN(TrackingRecHit const*, hits)

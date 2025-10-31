@@ -11,7 +11,7 @@ using XYZVector = ROOT::Math::XYZVector;
 void LST::run(Queue& queue,
               bool verbose,
               float const ptCut,
-              uint8_t const clustSizeCut,
+              uint16_t const clustSizeCut,
               LSTESData<Device> const* deviceESData,
               LSTInputDeviceCollection const* lstInputDC,
               bool no_pls_dupclean,

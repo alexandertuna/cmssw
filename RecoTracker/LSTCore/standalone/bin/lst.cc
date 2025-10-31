@@ -389,9 +389,9 @@ void run_lst() {
 
     // Please remove this once the cluster size is saved in the ntuple as uint8_t
     std::vector<size_t> clustSize64 = trk.getVU("ph2_clustSize");
-    std::vector<uint8_t> clustSize(clustSize64.size());
+    std::vector<uint16_t> clustSize(clustSize64.size());
     std::ranges::transform(clustSize64, clustSize.begin(),
-                           [](const auto& n){ return static_cast<uint8_t>(n); });
+                           [](const auto& n){ return static_cast<uint16_t>(n); });
     
     auto lstInputHC = prepareInput(trk.getVF("see_px"),
                                    trk.getVF("see_py"),
@@ -429,7 +429,7 @@ void run_lst() {
   std::vector<LSTEvent *> events;
   std::vector<ALPAKA_ACCELERATOR_NAMESPACE::Queue *> event_queues;
   for (int s = 0; s < ana.streams; s++) {
-    const uint8_t TMP_TMP_TMP_clustSizeCut{16};
+    const uint16_t TMP_TMP_TMP_clustSizeCut{16};
     LSTEvent *event = new LSTEvent(ana.verbose >= 2, ana.ptCut, TMP_TMP_TMP_clustSizeCut, queues[s], &deviceESData);
     events.push_back(event);
     event_queues.push_back(&queues[s]);

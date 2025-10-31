@@ -81,7 +81,7 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE {
 
     std::vector<unsigned int> ph2_detId;
     ph2_detId.reserve(phase2OTHits.dataSize());
-    std::vector<uint8_t> ph2_clustSize;
+    std::vector<uint16_t> ph2_clustSize;
     ph2_clustSize.reserve(phase2OTHits.dataSize());
     std::vector<float> ph2_x;
     ph2_x.reserve(phase2OTHits.dataSize());

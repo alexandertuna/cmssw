@@ -38,7 +38,7 @@ namespace lst {
                                              std::vector<std::vector<int>> const& see_hitIdx,
                                              std::vector<unsigned int> const& see_algo,
                                              std::vector<unsigned int> const& ph2_detId,
-                                             std::vector<uint8_t> const& ph2_clustSize,
+                                             std::vector<uint16_t> const& ph2_clustSize,
                                              std::vector<float> const& ph2_x,
                                              std::vector<float> const& ph2_y,
                                              std::vector<float> const& ph2_z,
@@ -50,7 +50,7 @@ namespace lst {
     std::vector<float> trkX;
     std::vector<float> trkY;
     std::vector<float> trkZ;
-    std::vector<uint8_t> hitClustSize;
+    std::vector<uint16_t> hitClustSize;
     std::vector<unsigned int> hitId;
     std::vector<unsigned int> hitIdxs;
     std::vector<Params_pLS::ArrayUxHits> hitIndices_vec;
@@ -221,7 +221,7 @@ namespace lst {
     std::memcpy(hits.ys().data(), ph2_y.data(), nHitsOT * sizeof(float));
     std::memcpy(hits.zs().data(), ph2_z.data(), nHitsOT * sizeof(float));
     std::memcpy(hits.detid().data(), ph2_detId.data(), nHitsOT * sizeof(unsigned int));
-    std::memcpy(hits.clustsize().data(), ph2_clustSize.data(), nHitsOT * sizeof(uint8_t));
+    std::memcpy(hits.clustsize().data(), ph2_clustSize.data(), nHitsOT * sizeof(uint16_t));
 #ifndef LST_STANDALONE
     std::memcpy(hits.hits().data(), ph2_hits.data(), nHitsOT * sizeof(TrackingRecHit const*));
 #endif
