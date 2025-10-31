@@ -422,7 +422,8 @@ void run_lst() {
   std::vector<LSTEvent *> events;
   std::vector<ALPAKA_ACCELERATOR_NAMESPACE::Queue *> event_queues;
   for (int s = 0; s < ana.streams; s++) {
-    LSTEvent *event = new LSTEvent(ana.verbose >= 2, ana.ptCut, queues[s], &deviceESData);
+    const uint8_t TMP_TMP_TMP_clusSizeCut{16};
+    LSTEvent *event = new LSTEvent(ana.verbose >= 2, ana.ptCut, TMP_TMP_TMP_clusSizeCut, queues[s], &deviceESData);
     events.push_back(event);
     event_queues.push_back(&queues[s]);
   }
