@@ -377,14 +377,21 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::lst {
                                                      float xLower,
                                                      float yLower,
                                                      float zLower,
+                                                     uint16_t clustSizeLower,
                                                      float rtLower,
                                                      float xUpper,
                                                      float yUpper,
                                                      float zUpper,
+                                                     uint16_t clustSizeUpper,
                                                      float rtUpper,
                                                      const float ptCut,
                                                      const uint16_t clustSizeCut) {
-    if (0 == clustSizeCut) {
+
+    if ((modules.moduleLayerType()[lowerModuleIndex] == Pixel and clustSizeLower > clustSizeCut) or
+        (modules.moduleLayerType()[upperModuleIndex] == Pixel and clustSizeUpper > clustSizeCut) or
+        (modules.moduleLayerType()[lowerModuleIndex] == Strip and clustSizeLower > clustSizeCut) or
+        (modules.moduleLayerType()[upperModuleIndex] == Strip and clustSizeUpper > clustSizeCut)
+        ) {
       return false;
     }
 
@@ -510,10 +517,12 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::lst {
                                                      float xLower,
                                                      float yLower,
                                                      float zLower,
+                                                     uint16_t clustSizeLower,
                                                      float rtLower,
                                                      float xUpper,
                                                      float yUpper,
                                                      float zUpper,
+                                                     uint16_t clustSizeUpper,
                                                      float rtUpper,
                                                      const float ptCut,
                                                      const uint16_t clustSizeCut) {
@@ -522,7 +531,11 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::lst {
     // Ref to original code: https://github.com/slava77/cms-tkph2-ntuple/blob/184d2325147e6930030d3d1f780136bc2dd29ce6/doubletAnalysis.C#L3093
     // For PS module in case when it is tilted a different dz (after the strip hit shift) is calculated later.
 
-    if (0 == clustSizeCut) {
+    if ((modules.moduleLayerType()[lowerModuleIndex] == Pixel and clustSizeLower > clustSizeCut) or
+        (modules.moduleLayerType()[upperModuleIndex] == Pixel and clustSizeUpper > clustSizeCut) or
+        (modules.moduleLayerType()[lowerModuleIndex] == Strip and clustSizeLower > clustSizeCut) or
+        (modules.moduleLayerType()[upperModuleIndex] == Strip and clustSizeUpper > clustSizeCut)
+        ) {
       return false;
     }
 
@@ -627,10 +640,12 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::lst {
                                                float xLower,
                                                float yLower,
                                                float zLower,
+                                               uint16_t clustSizeLower,
                                                float rtLower,
                                                float xUpper,
                                                float yUpper,
                                                float zUpper,
+                                               uint16_t clustSizeUpper,
                                                float rtUpper,
                                                const float ptCut,
                                                const uint16_t clustSizeCut) {
@@ -652,10 +667,12 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::lst {
                                              xLower,
                                              yLower,
                                              zLower,
+                                             clustSizeLower,
                                              rtLower,
                                              xUpper,
                                              yUpper,
                                              zUpper,
+                                             clustSizeUpper,
                                              rtUpper,
                                              ptCut,
                                              clustSizeCut);
@@ -677,10 +694,12 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::lst {
                                              xLower,
                                              yLower,
                                              zLower,
+                                             clustSizeLower,
                                              rtLower,
                                              xUpper,
                                              yUpper,
                                              zUpper,
+                                             clustSizeUpper,
                                              rtUpper,
                                              ptCut,
                                              clustSizeCut);
@@ -719,11 +738,13 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::lst {
           float xLower = hitsBase.xs()[lowerHitArrayIndex];
           float yLower = hitsBase.ys()[lowerHitArrayIndex];
           float zLower = hitsBase.zs()[lowerHitArrayIndex];
+          uint16_t clustSizeLower = hitsBase.clustsize()[lowerHitArrayIndex];
           float rtLower = hitsExtended.rts()[lowerHitArrayIndex];
           unsigned int upperHitArrayIndex = upHitArrayIndex + upperHitIndex;
           float xUpper = hitsBase.xs()[upperHitArrayIndex];
           float yUpper = hitsBase.ys()[upperHitArrayIndex];
           float zUpper = hitsBase.zs()[upperHitArrayIndex];
+          uint16_t clustSizeUpper = hitsBase.clustsize()[upperHitArrayIndex];
           float rtUpper = hitsExtended.rts()[upperHitArrayIndex];
 
           float dz, dphi, dphichange, shiftedX, shiftedY, shiftedZ, noShiftedDphi, noShiftedDphiChange;
@@ -744,10 +765,12 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::lst {
                                                    xLower,
                                                    yLower,
                                                    zLower,
+                                                   clustSizeLower,
                                                    rtLower,
                                                    xUpper,
                                                    yUpper,
                                                    zUpper,
+                                                   clustSizeUpper,
                                                    rtUpper,
                                                    ptCut,
                                                    clustSizeCut);
