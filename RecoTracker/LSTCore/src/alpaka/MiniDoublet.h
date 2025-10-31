@@ -383,8 +383,8 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::lst {
                                                      float zUpper,
                                                      float rtUpper,
                                                      const float ptCut,
-                                                     const uint8_t clusSizeCut) {
-    if (0 == clusSizeCut) {
+                                                     const uint8_t clustSizeCut) {
+    if (0 == clustSizeCut) {
       return false;
     }
 
@@ -516,13 +516,13 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::lst {
                                                      float zUpper,
                                                      float rtUpper,
                                                      const float ptCut,
-                                                     const uint8_t clusSizeCut) {
+                                                     const uint8_t clustSizeCut) {
     // There are series of cuts that applies to mini-doublet in a "endcap" region
     // Cut #1 : dz cut. The dz difference can't be larger than 1cm. (max separation is 4mm for modules in the endcap)
     // Ref to original code: https://github.com/slava77/cms-tkph2-ntuple/blob/184d2325147e6930030d3d1f780136bc2dd29ce6/doubletAnalysis.C#L3093
     // For PS module in case when it is tilted a different dz (after the strip hit shift) is calculated later.
 
-    if (0 == clusSizeCut) {
+    if (0 == clustSizeCut) {
       return false;
     }
 
@@ -633,7 +633,7 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::lst {
                                                float zUpper,
                                                float rtUpper,
                                                const float ptCut,
-                                               const uint8_t clusSizeCut) {
+                                               const uint8_t clustSizeCut) {
     if (modules.subdets()[lowerModuleIndex] == Barrel) {
       return runMiniDoubletDefaultAlgoBarrel(acc,
                                              modules,
@@ -658,7 +658,7 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::lst {
                                              zUpper,
                                              rtUpper,
                                              ptCut,
-                                             clusSizeCut);
+                                             clustSizeCut);
     } else {
       return runMiniDoubletDefaultAlgoEndcap(acc,
                                              modules,
@@ -683,7 +683,7 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::lst {
                                              zUpper,
                                              rtUpper,
                                              ptCut,
-                                             clusSizeCut);
+                                             clustSizeCut);
     }
   }
 
@@ -697,7 +697,7 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::lst {
                                   MiniDoubletsOccupancy mdsOccupancy,
                                   ObjectRangesConst ranges,
                                   const float ptCut,
-                                  const uint8_t clusSizeCut) const {
+                                  const uint8_t clustSizeCut) const {
       for (uint16_t lowerModuleIndex : cms::alpakatools::uniform_elements_y(acc, modules.nLowerModules())) {
         uint16_t upperModuleIndex = modules.partnerModuleIndices()[lowerModuleIndex];
         int nLowerHits = hitsRanges.hitRangesnLower()[lowerModuleIndex];
@@ -750,7 +750,7 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::lst {
                                                    zUpper,
                                                    rtUpper,
                                                    ptCut,
-                                                   clusSizeCut);
+                                                   clustSizeCut);
           if (success) {
             int totOccupancyMDs = alpaka::atomicAdd(
                 acc, &mdsOccupancy.totOccupancyMDs()[lowerModuleIndex], 1u, alpaka::hierarchy::Threads{});
