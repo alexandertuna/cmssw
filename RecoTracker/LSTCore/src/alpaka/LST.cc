@@ -16,7 +16,7 @@ void LST::run(Queue& queue,
               LSTInputDeviceCollection const* lstInputDC,
               bool no_pls_dupclean,
               bool tc_pls_triplets) {
-  auto event = LSTEvent(verbose, ptCut, queue, deviceESData);
+  auto event = LSTEvent(verbose, ptCut, clusSizeCut, queue, deviceESData);
 
   event.addInputToEvent(lstInputDC);
   event.addHitToEvent();
