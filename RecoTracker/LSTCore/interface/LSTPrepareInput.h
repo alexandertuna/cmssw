@@ -38,6 +38,7 @@ namespace lst {
                                              std::vector<std::vector<int>> const& see_hitIdx,
                                              std::vector<unsigned int> const& see_algo,
                                              std::vector<unsigned int> const& ph2_detId,
+                                             std::vector<uint8_t> const& ph2_clustSize,
                                              std::vector<float> const& ph2_x,
                                              std::vector<float> const& ph2_y,
                                              std::vector<float> const& ph2_z,
