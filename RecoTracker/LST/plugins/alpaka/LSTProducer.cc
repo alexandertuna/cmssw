@@ -29,7 +29,7 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE {
           lstESToken_{esConsumes(edm::ESInputTag("", config.getParameter<std::string>("ptCutLabel")))},
           verbose_(config.getParameter<bool>("verbose")),
           ptCut_(config.getParameter<double>("ptCut")),
-          clustSizeCut_(uint16_t{16}), // TODO FIX ME
+          clustSizeCut_(static_cast<uint16_t>(config.getParameter<uint32_t>("clustSizeCut"))),
           nopLSDupClean_(config.getParameter<bool>("nopLSDupClean")),
           tcpLSTriplets_(config.getParameter<bool>("tcpLSTriplets")),
           lstOutputToken_{produces()} {}
@@ -59,6 +59,7 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE {
       desc.add<edm::InputTag>("lstInput", edm::InputTag{"lstInputProducer"});
       desc.add<bool>("verbose", false);
       desc.add<double>("ptCut", 0.8);
+      desc.add<uint32_t>("clustSizeCut", 16);
       desc.add<std::string>("ptCutLabel", "0.8");
       desc.add<bool>("nopLSDupClean", false);
       desc.add<bool>("tcpLSTriplets", false);
