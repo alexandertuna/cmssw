@@ -387,6 +387,12 @@ void run_lst() {
     if (not goodEvent())
       continue;
 
+    // Please remove this once the cluster size is saved in the ntuple as uint8_t
+    std::vector<size_t> clustSize64 = trk.getVU("ph2_clustSize");
+    std::vector<uint8_t> clustSize(clustSize64.size());
+    std::ranges::transform(clustSize64, clustSize.begin(),
+                           [](const auto& n){ return static_cast<uint8_t>(n); });
+    
     auto lstInputHC = prepareInput(trk.getVF("see_px"),
                                    trk.getVF("see_py"),
                                    trk.getVF("see_pz"),
@@ -404,6 +410,7 @@ void run_lst() {
                                    trk.getVVI("see_hitIdx"),
                                    trk.getVU("see_algo"),
                                    trk.getVU("ph2_detId"),
+                                   clustSize, // trk.getVU("ph2_clustSize"),
                                    trk.getVF("ph2_x"),
                                    trk.getVF("ph2_y"),
                                    trk.getVF("ph2_z"),

@@ -50,6 +50,7 @@ namespace lst {
     std::vector<float> trkX;
     std::vector<float> trkY;
     std::vector<float> trkZ;
+    std::vector<uint8_t> hitClustSize;
     std::vector<unsigned int> hitId;
     std::vector<unsigned int> hitIdxs;
     std::vector<Params_pLS::ArrayUxHits> hitIndices_vec;
@@ -87,6 +88,7 @@ namespace lst {
     trkX.reserve(4 * n_see);
     trkY.reserve(4 * n_see);
     trkZ.reserve(4 * n_see);
+    hitClustSize.reserve(4 * n_see);
     hitId.reserve(4 * n_see);
     hitIdxs.reserve(hit_size + 4 * n_see);
     hitIdxs.resize(hit_size);
@@ -157,11 +159,15 @@ namespace lst {
         hitId.push_back(1);
         hitId.push_back(1);
         hitId.push_back(1);
+        hitClustSize.push_back(1);
+        hitClustSize.push_back(1);
+        hitClustSize.push_back(1);
         if (see_hitIdx[iSeed].size() > 3) {
           trkX.push_back(r3LH.x());
           trkY.push_back(see_dxy[iSeed]);
           trkZ.push_back(see_dz[iSeed]);
           hitId.push_back(1);
+          hitClustSize.push_back(1);
         }
         px_vec.push_back(px);
         py_vec.push_back(py);
@@ -215,6 +221,7 @@ namespace lst {
     std::memcpy(hits.ys().data(), ph2_y.data(), nHitsOT * sizeof(float));
     std::memcpy(hits.zs().data(), ph2_z.data(), nHitsOT * sizeof(float));
     std::memcpy(hits.detid().data(), ph2_detId.data(), nHitsOT * sizeof(unsigned int));
+    std::memcpy(hits.clustsize().data(), ph2_clustSize.data(), nHitsOT * sizeof(uint8_t));
 #ifndef LST_STANDALONE
     std::memcpy(hits.hits().data(), ph2_hits.data(), nHitsOT * sizeof(TrackingRecHit const*));
 #endif
@@ -223,6 +230,7 @@ namespace lst {
     std::memcpy(hits.ys().data() + nHitsOT, trkY.data(), nHitsIT * sizeof(float));
     std::memcpy(hits.zs().data() + nHitsOT, trkZ.data(), nHitsIT * sizeof(float));
     std::memcpy(hits.detid().data() + nHitsOT, hitId.data(), nHitsIT * sizeof(unsigned int));
+    std::memcpy(hits.clustsize().data() + nHitsOT, hitClustSize.data(), nHitsIT * sizeof(unsigned int));
 #ifndef LST_STANDALONE
     std::memset(hits.hits().data() + nHitsOT, 0, nHitsIT * sizeof(TrackingRecHit const*));
 #endif
